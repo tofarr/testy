@@ -1,5 +1,9 @@
 import db from './db';
 
+db.version(1).stores({
+  test_cases: '++id,&title'
+})
+
 export interface ITestCase {
   id?: number,
   title: string;

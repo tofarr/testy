@@ -13,6 +13,11 @@ function getMsg(err: any): string {
   }
 };
 
-export default function(err: any){
-  useMsg().addMsg(getMsg(err), MsgType.Error);
+export default function(){
+  const { addMsg } = useMsg();
+  return {
+    err: (err: any) => {
+      addMsg(getMsg(err), MsgType.Error);
+    }
+  }
 };
