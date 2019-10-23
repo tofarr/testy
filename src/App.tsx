@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router } from "react-router-dom";
+import { Box, Container, Paper } from '@material-ui/core';
 
 import Header from './components/Header';
 import AppController from './AppController';
@@ -8,10 +9,14 @@ import AppController from './AppController';
 const App: React.FC = () => {
   return (
     <Router>
-      <div className="App">
+      <Container>
         <Header />
-        <AppController />
-      </div>
+        <Paper>
+          <Box p={2} mt={10}>
+            <AppController />
+          </Box>
+        </Paper>
+      </Container>
     </Router>
   );
 }

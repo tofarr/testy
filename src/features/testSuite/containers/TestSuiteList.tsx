@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
+import { Box, Button, Grid, Typography } from '@material-ui/core';
 
 import useErr from '../../../hooks/useErr';
 import EntityLink from '../../../components/EntityLink';
@@ -30,17 +31,29 @@ const TestSuiteList: FC = () => {
   }
 
   return (
-    <div>
-    <h1>Test Suites</h1>
-      <Link to={testSuiteCreatePath()}>Create Test Suite</Link>
-      {testSuites.map(testSuite => (
-        <EntityLink
-          key={testSuite.id}
-          title={testSuite.title}
-          description={testSuite.description}
-          href={testSuiteUpdatePath(testSuite.id as number)} />
-      ))}
-    </div>
+    <Box>
+      <Grid container alignItems="center" spacing={2}>
+        <Grid xs item>
+          <Typography variant="h4">Test Suites</Typography>
+        </Grid>
+        <Grid item>
+          <Link to={testSuiteCreatePath()} className="button">
+            <Button variant="contained" color="primary">
+              Create Test Suite
+            </Button>
+          </Link>
+        </Grid>
+      </Grid>
+      <Box p={1}>
+        {testSuites.map(testSuite => (
+          <EntityLink
+            key={testSuite.id}
+            title={testSuite.title}
+            description={testSuite.description}
+            href={testSuiteUpdatePath(testSuite.id as number)} />
+        ))}
+      </Box>
+    </Box>
   );
 }
 

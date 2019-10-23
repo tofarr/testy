@@ -1,4 +1,5 @@
-import React, { FC } from 'react';
+import React, { FC, Fragment, useState } from 'react';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 
 export interface IProps {
   onDelete: () => void;
@@ -6,15 +7,30 @@ export interface IProps {
 
 const EntityLink: FC<IProps> = ({ onDelete }) => {
 
+  const [open, setOpen] = useState(false);
+
   function handleDelete(){
-    if(window.confirm('Are you sure?')){
-      onDelete();
-    }
+    setOpen(false);
+    onDelete();
   }
 
-  return (
-    <button onClick={handleDelete}>Delete</button>
-  );
+  return <Fragment>
+    <Button variant="contained" color="secondary" onClick={() => setOpen(true)}>Delete</Button>
+    <Dialog
+      open={open}
+      onClose={() => setOpen(false)}>
+      <DialogTitle>Are you sure?</DialogTitle>
+      <DialogContent>Deleted items cannot be retrieved!</DialogContent>
+      <DialogActions>
+        <Button onClick={() => setOpen(false)} variant="contained">
+          Cancel
+        </Button>
+        <Button onClick={handleDelete} variant="contained" color="secondary" autoFocus>
+          Confirm
+        </Button>
+      </DialogActions>
+    </Dialog>
+  </Fragment>
 }
 
 export default EntityLink;

@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link, Redirect  } from "react-router-dom";
+import { Box, Button, Grid, Typography } from '@material-ui/core';
 
 import useErr from '../../../hooks/useErr';
 import useMsg from '../../../hooks/useMsg';
@@ -39,9 +40,18 @@ const TestStepCreate: FC = () => {
 
   function renderLink(){
     if(testCaseId){
-      return <Link to={testCaseUpdatePath(parseInt(testCaseId))}>Test Case</Link>;
+      return <Link to={testCaseUpdatePath(parseInt(testCaseId))} className="button">
+        <Button variant="contained" color="primary">
+          Test Case
+        </Button>
+      </Link>
     }
-    return <Link to={testStepListPath()}>Test Steps</Link>;
+    
+    return <Link to={testStepListPath()} className="button">
+      <Button variant="contained" color="primary">
+        Test Steps
+      </Button>
+    </Link>
   }
 
   useEffect(() => {
@@ -70,11 +80,17 @@ const TestStepCreate: FC = () => {
     return null;
   }
 
-  return <div>
-    <h1>Create Test Step</h1>
-    {renderLink()}
+  return <Box>
+    <Grid container alignItems="center" spacing={2}>
+      <Grid xs item>
+        <Typography variant="h4">Create Test Step</Typography>
+      </Grid>
+      <Grid item>
+        {renderLink()}
+      </Grid>
+    </Grid>
     <TestStepForm testStep={testStep} onSubmit={handleCreate} buttonLabel="Create" />
-  </div>
+  </Box>
 }
 
 export default TestStepCreate;

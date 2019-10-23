@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
-import { Link } from "react-router-dom";
+import { Box, Paper, Typography } from '@material-ui/core';
+
+import InternalLink from './InternalLink';
 
 export interface IProps {
   title: string;
@@ -8,14 +10,16 @@ export interface IProps {
 }
 
 const EntityLink: FC<IProps> = ({ title, description, href }) => {
-  
+
   return (
-    <div>
-      <Link to={href}>
-        <h3>{title}</h3>
-      </Link>
-      <p>{description}</p>
-    </div>
+    <Box p={1}>
+      <Paper>
+        <Box p={1}>
+          <InternalLink href={href} variant="h5">{title}</InternalLink>
+          {!!description && <Typography>{description}</Typography>}
+        </Box>
+      </Paper>
+    </Box>
   );
 }
 

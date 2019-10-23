@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link, Redirect } from "react-router-dom";
+import { Box, Button, Grid, Typography } from '@material-ui/core';
 
 import useErr from '../../../hooks/useErr';
 import useMsg from '../../../hooks/useMsg';
@@ -51,11 +52,21 @@ const TestSuiteCreate: FC = () => {
     return null;
   }
 
-  return <div>
-    <h1>Create Test Suite</h1>
-    <Link to={testSuiteListPath()}>Test Suites</Link>
+  return <Box>
+    <Grid container alignItems="center" spacing={2}>
+      <Grid xs item>
+        <Typography variant="h4">Create Test Suite</Typography>
+      </Grid>
+      <Grid item>
+        <Link to={testSuiteListPath()} className="button">
+          <Button variant="contained" color="primary">
+            Test Suites
+          </Button>
+        </Link>
+      </Grid>
+    </Grid>
     <TestSuiteForm testSuite={testSuite} onSubmit={handleCreate} buttonLabel="Create" />
-  </div>
+  </Box>
 }
 
 export default TestSuiteCreate;

@@ -1,13 +1,27 @@
 import React from 'react';
-import Menu from './Menu';
+import { AppBar, Button, Grid, Link, Toolbar } from '@material-ui/core';
+
 import Msg from './Msgs';
+
 
 const Header: React.FC = () => {
 
   return (
     <div>
-      <Menu />
-      <Msg />
+      <AppBar>
+        <Toolbar>
+          <Grid container justify="space-between">
+            <Grid item>
+              <Link href="/">
+                <Button>Home</Button>
+              </Link>
+            </Grid>
+            <Grid item>
+              <Msg />
+            </Grid>
+          </Grid>
+        </Toolbar>
+      </AppBar>
     </div>
   );
 }

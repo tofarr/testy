@@ -1,4 +1,5 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, Fragment, useEffect, useState } from 'react';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Typography } from '@material-ui/core';
 
 import useMsg from '../hooks/useMsg';
 import { IMsg } from '../hooks/useMsg';
@@ -8,7 +9,7 @@ const EXPAND_TIMEOUT = 3000;
 
 const Header: FC = () => {
 
-  const [expanded, setExpanded] = useState(false);
+  const [open, setOpen] = useState(false);
   const [msgs, setMsgs] = useState<IMsg[]>([]);
   const [timeoutId, setTimeoutId] = useState<any>(null);
   const [visibleMsg, setVisibleMsg] = useState<IMsg|null>(null);
@@ -16,7 +17,7 @@ const Header: FC = () => {
 
   function handleMsgs(msgs: IMsg[]){
     setMsgs(msgs);
-    if(!expanded){
+    if(!open){
       setVisibleMsg(getVisibleMsg(msgs));
       clearTimeout(timeoutId);
       setTimeoutId(setTimeout(() => setVisibleMsg(null), EXPAND_TIMEOUT));
@@ -25,7 +26,7 @@ const Header: FC = () => {
 
   function handleClear(){
     clearMsgs();
-    setExpanded(false);
+    setOpen(false);
   }
 
   function getVisibleMsg(msgs: IMsg[]){
@@ -45,35 +46,42 @@ const Header: FC = () => {
     }
   })
 
-  function renderExpanded(){
-    if(!expanded){
+  function renderDialog(){
+    if(!open){
       return null;
     }
-    return <div>
-      <button onClick={handleClear}>Clear Messages</button>
-      <ul>
-        {msgs.map((msg) => <li key={msg.timestamp.getTime()}>
+    return <Dialog
+      open={open}
+      onClose={() => setOpen(false)}>
+      <DialogTitle>Messages</DialogTitle>
+      <DialogContent>
+        {msgs.map((msg) => <div key={msg.timestamp.getTime()}>
           <Timestamp t={msg.timestamp} /> : {msg.type} : {msg.msg}
-        </li>)}
-      </ul>
-    </div>
+        </div>)}
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClear} variant="contained" color="secondary" autoFocus>
+          Clear Messages
+        </Button>
+      </DialogActions>
+    </Dialog>
   }
 
-  function renderCompressed(){
-    if(expanded || (!visibleMsg)){
+  function renderRecent(){
+    if(!visibleMsg){
       return null;
     }
-    return <div>
+    return <Fragment>
       <Timestamp t={visibleMsg.timestamp} /> : {visibleMsg.type} : {visibleMsg.msg}
-    </div>
+    </Fragment>
   }
 
   return (
-    <div>
-      {renderExpanded()}
-      {renderCompressed()}
-      <button onClick={() => setExpanded(!expanded)}>{expanded ? 'Hide Messages' : 'Show Messages'}</button>
-    </div>
+    <Fragment>
+      {renderRecent()}
+      {!!msgs.length && <Button onClick={() => setOpen(true)}>Messages</Button>}
+      {renderDialog()}
+    </Fragment>
   );
 }
 

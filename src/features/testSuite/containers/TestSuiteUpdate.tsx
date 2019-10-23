@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link, Redirect, useParams } from "react-router-dom";
+import { Box, Button, Grid, Paper, Typography } from '@material-ui/core';
 
 import useErr from '../../../hooks/useErr';
 import useMsg from '../../../hooks/useMsg';
@@ -67,13 +68,29 @@ const TestSuiteUpdate: FC = () => {
     return <NotFound />
   }
 
-  return <div>
-    <h1>Edit Test Suite</h1>
-    <Link to={testSuiteListPath()}>Test Suites</Link>
-    <DeleteButton onDelete={handleDelete} />
+  return <Box>
+    <Grid container alignItems="center" spacing={2}>
+      <Grid xs item>
+        <Typography variant="h4">Test Suite</Typography>
+      </Grid>
+      <Grid item>
+        <DeleteButton onDelete={handleDelete} />
+      </Grid>
+      <Grid item>
+        <Link to={testSuiteListPath()} className="button">
+          <Button variant="contained" color="primary">
+            Test Suites
+          </Button>
+        </Link>
+      </Grid>
+    </Grid>
     <TestSuiteForm testSuite={testSuite} onSubmit={handleUpdate} buttonLabel="Update" />
-    <TestCaseList />
-  </div>
+    <Paper>
+      <Box p={2}>
+        <TestCaseList />
+      </Box>
+    </Paper>
+  </Box>
 }
 
 export default TestSuiteUpdate;

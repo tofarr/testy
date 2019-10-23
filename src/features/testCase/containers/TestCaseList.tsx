@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { Box, Button, Grid, Typography } from '@material-ui/core';
 
 import useErr from '../../../hooks/useErr';
 import EntityLink from '../../../components/EntityLink';
@@ -48,13 +49,25 @@ const TestCaseList: FC = () => {
   }
 
   return (
-    <div>
-      <h3>Test Cases</h3>
-      <Link to={testCaseCreatePath(parseInt(params.id))}>Create Test Case</Link>
-      {testCases.map(testCase => (
-        <EntityLink key={testCase.id} title={testCase.title} description={testCase.description} href={testCaseUpdatePath(testCase.id as number)} />
-      ))}
-    </div>
+    <Box>
+      <Grid container alignItems="center" spacing={2}>
+        <Grid xs item>
+          <Typography variant="h4">Test Cases</Typography>
+        </Grid>
+        <Grid item>
+          <Link to={testCaseCreatePath(parseInt(params.id))} className="button">
+            <Button variant="contained" color="primary">
+              Create Test Case
+            </Button>
+          </Link>
+        </Grid>
+      </Grid>
+      <Box p={1}>
+        {testCases.map(testCase => (
+          <EntityLink key={testCase.id} title={testCase.title} description={testCase.description} href={testCaseUpdatePath(testCase.id as number)} />
+        ))}
+      </Box>
+    </Box>
   );
 }
 

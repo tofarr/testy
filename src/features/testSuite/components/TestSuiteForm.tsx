@@ -1,4 +1,6 @@
 import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
+import { Box, Button, Grid, TextField } from '@material-ui/core';
+
 import { ITestSuite } from '../TestSuiteService';
 
 export interface IProps {
@@ -28,25 +30,36 @@ const TestSuite: FC<IProps> = ({ testSuite, buttonLabel, onSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit} onReset={handleReset}>
-      <fieldset>
-        <label>
-          <span>Title</span>
-          <input
-            type="text"
-            value={_testSuite.title}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => updateTestSuite('title', event.target.value)} />
-        </label>
-        <label>
-          <span>Description</span>
-          <textarea
-            value={_testSuite.description}
-            onChange={(event: ChangeEvent<HTMLTextAreaElement>) => updateTestSuite('description', event.target.value)} />
-        </label>
-        <div>
-          <button type="submit">{buttonLabel}</button>
-          <button type="reset">Reset</button>
-        </div>
-      </fieldset>
+      <Box p={2}>
+        <Grid container direction="column" spacing={2}>
+          <Grid item>
+            <TextField
+              autoFocus
+              fullWidth
+              variant="filled"
+              label="Title"
+              value={_testSuite.title}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => updateTestSuite('title', event.target.value)} />
+          </Grid>
+          <Grid item>
+            <TextField
+              fullWidth
+              variant="filled"
+              label="Description"
+              multiline
+              value={_testSuite.description}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => updateTestSuite('description', event.target.value)} />
+          </Grid>
+          <Grid container item justify="flex-end" spacing={2}>
+            <Grid item>
+              <Button type="reset" variant="contained">Reset</Button>
+            </Grid>
+            <Grid item>
+              <Button type="submit" variant="contained" color="primary">{buttonLabel}</Button>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
     </form>
   );
 }
