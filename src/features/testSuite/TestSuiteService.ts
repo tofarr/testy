@@ -24,7 +24,14 @@ export function newInstance(): Promise<ITestSuite>{
 }
 
 export function create(testSuite: ITestSuite) {
-  return table().add(testSuite);
+  return new Promise<ITestSuite>((resolve,reject) => {
+    table().add(testSuite).then((id) => {
+      resolve({
+        ...testSuite,
+        id
+      });
+    }, reject);
+  });
 }
 
 export function read(id: number) {
@@ -39,6 +46,6 @@ export function destroy(id: number) {
   return table().delete(id);
 }
 
-export function index(offset = 0, limit = 20) {
+export function list(offset = 0, limit = 20) {
   return table().offset(offset).limit(limit).reverse().toArray();
 }

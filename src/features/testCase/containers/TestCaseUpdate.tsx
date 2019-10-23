@@ -7,28 +7,29 @@ import DeleteButton from '../../../components/DeleteButton';
 import Loader from '../../../components/Loader';
 import NotFound from '../../../components/NotFound';
 
-import { testSuiteListPath } from '../TestSuiteController';
-import { destroy, read, update, ITestSuite } from '../TestSuiteService';
-import TestSuiteForm from '../components/TestSuiteForm';
-import TestCaseList from '../../testCase/containers/TestCaseList';
+import { testSuiteUpdatePath } from '../../testSuite/TestSuiteController';
+import { destroy, read, update, ITestCase } from '../TestCaseService';
+import TestCaseForm from '../components/TestCaseForm';
+import TestStepList from '../../testStep/containers/TestStepList';
 
 export interface IProps {
   id: string;
 }
 
-const TestSuiteUpdate: FC = () => {
+const TestCaseUpdate: FC = () => {
   const params = useParams<IProps>();
   const id = parseInt(params.id);
-  const [testSuite, setTestSuite] = useState<ITestSuite | undefined>(undefined);
+  const [testCase, setTestCase] = useState<ITestCase | undefined>(undefined);
   const [working, setWorking] = useState(false);
   const [done, setDone] = useState(false);
+  const testSuiteId = testCase ? testCase.testSuiteId : undefined;
   const { addMsg } = useMsg();
   const { err } = useErr();
 
-  function handleUpdate(testSuite: ITestSuite){
+  function handleUpdate(testCase: ITestCase){
     setWorking(true);
-    update(testSuite).then(() => {
-      addMsg('Test Suite Updated');
+    update(testCase).then(() => {
+      addMsg('Test Case Updated');
       setDone(true);
     }, (e: any) => {
       setWorking(false);
@@ -37,18 +38,18 @@ const TestSuiteUpdate: FC = () => {
   }
 
   function handleDelete(){
-    const id = (testSuite as ITestSuite).id as number;
+    const id = (testCase as ITestCase).id as number;
     destroy(id).then(() => {
-      addMsg('Test Suite Deleted');
+      addMsg('Test Case Deleted');
       setDone(true);
     }, err);
   }
 
   useEffect(() => {
     setWorking(true);
-    read(id).then((testSuite: ITestSuite | undefined) => {
+    read(id).then((testCase: ITestCase | undefined) => {
       setWorking(false);
-      setTestSuite(testSuite);
+      setTestCase(testCase);
     }, (e: any) => {
       setWorking(false);
       err(e);
@@ -56,24 +57,24 @@ const TestSuiteUpdate: FC = () => {
   }, [err, id]);
 
   if(done){
-    return <Redirect to={testSuiteListPath()} />
+    return <Redirect to={`/test-suite-update/${testSuiteId}`} />
   }
 
   if(working){
     return <Loader />
   }
 
-  if(!testSuite){
+  if(!testCase){
     return <NotFound />
   }
 
   return <div>
-    <h1>Edit Test Suite</h1>
-    <Link to={testSuiteListPath()}>Test Suites</Link>
+    <h1>Edit Test Case</h1>
+    {!!testSuiteId && <Link to={testSuiteUpdatePath(testSuiteId)}>Test Suite</Link>}
     <DeleteButton onDelete={handleDelete} />
-    <TestSuiteForm testSuite={testSuite} onSubmit={handleUpdate} buttonLabel="Update" />
-    <TestCaseList />
+    <TestCaseForm testCase={testCase} onSubmit={handleUpdate} buttonLabel="Update" />
+    <TestStepList />
   </div>
 }
 
-export default TestSuiteUpdate;
+export default TestCaseUpdate;

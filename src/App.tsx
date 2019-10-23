@@ -1,16 +1,16 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router } from "react-router-dom"; 
+import { BrowserRouter as Router } from "react-router-dom";
 
 import Header from './components/Header';
-import Controller from './Controller';
+import AppController from './AppController';
 
 const App: React.FC = () => {
   return (
     <Router>
       <div className="App">
         <Header />
-        <Controller />
+        <AppController />
       </div>
     </Router>
   );

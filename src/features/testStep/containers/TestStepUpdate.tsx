@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Link, Redirect, useParams } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 
 import useErr from '../../../hooks/useErr';
 import useMsg from '../../../hooks/useMsg';
@@ -7,28 +7,26 @@ import DeleteButton from '../../../components/DeleteButton';
 import Loader from '../../../components/Loader';
 import NotFound from '../../../components/NotFound';
 
-import { testSuiteListPath } from '../TestSuiteController';
-import { destroy, read, update, ITestSuite } from '../TestSuiteService';
-import TestSuiteForm from '../components/TestSuiteForm';
-import TestCaseList from '../../testCase/containers/TestCaseList';
+import { destroy, read, update, ITestStep } from '../TestStepService';
+import TestStepForm from '../components/TestStepForm';
 
 export interface IProps {
   id: string;
 }
 
-const TestSuiteUpdate: FC = () => {
+const TestStepUpdate: FC = () => {
   const params = useParams<IProps>();
   const id = parseInt(params.id);
-  const [testSuite, setTestSuite] = useState<ITestSuite | undefined>(undefined);
+  const [testStep, setTestStep] = useState<ITestStep | undefined>(undefined);
   const [working, setWorking] = useState(false);
   const [done, setDone] = useState(false);
   const { addMsg } = useMsg();
   const { err } = useErr();
 
-  function handleUpdate(testSuite: ITestSuite){
+  function handleUpdate(testStep: ITestStep){
     setWorking(true);
-    update(testSuite).then(() => {
-      addMsg('Test Suite Updated');
+    update(testStep).then(() => {
+      addMsg('Test Step Updated');
       setDone(true);
     }, (e: any) => {
       setWorking(false);
@@ -37,18 +35,18 @@ const TestSuiteUpdate: FC = () => {
   }
 
   function handleDelete(){
-    const id = (testSuite as ITestSuite).id as number;
+    const id = (testStep as ITestStep).id as number;
     destroy(id).then(() => {
-      addMsg('Test Suite Deleted');
+      addMsg('Test Step Deleted');
       setDone(true);
     }, err);
   }
 
   useEffect(() => {
     setWorking(true);
-    read(id).then((testSuite: ITestSuite | undefined) => {
+    read(id).then((testStep: ITestStep | undefined) => {
       setWorking(false);
-      setTestSuite(testSuite);
+      setTestStep(testStep);
     }, (e: any) => {
       setWorking(false);
       err(e);
@@ -56,24 +54,21 @@ const TestSuiteUpdate: FC = () => {
   }, [err, id]);
 
   if(done){
-    return <Redirect to={testSuiteListPath()} />
+    return <Redirect to='/test-Step-list' />
   }
 
   if(working){
     return <Loader />
   }
 
-  if(!testSuite){
+  if(!testStep){
     return <NotFound />
   }
 
   return <div>
-    <h1>Edit Test Suite</h1>
-    <Link to={testSuiteListPath()}>Test Suites</Link>
     <DeleteButton onDelete={handleDelete} />
-    <TestSuiteForm testSuite={testSuite} onSubmit={handleUpdate} buttonLabel="Update" />
-    <TestCaseList />
+    <TestStepForm testStep={testStep} onSubmit={handleUpdate} buttonLabel="Update" />
   </div>
 }
 
-export default TestSuiteUpdate;
+export default TestStepUpdate;
