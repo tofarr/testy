@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 

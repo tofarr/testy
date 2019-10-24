@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@material-ui/core';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon/SvgIcon';
 import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';

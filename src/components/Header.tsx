@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Button, Grid, Link, Toolbar } from '@material-ui/core';
+import { AppBar, Grid, Toolbar } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 
 import ButtonWithIcon from './ButtonWithIcon';

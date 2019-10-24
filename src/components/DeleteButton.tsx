@@ -3,7 +3,7 @@ import { Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/
 import CancelIcon from '@material-ui/icons/Cancel';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import ButtonWithIcon, { IButtonWithIconProps } from './ButtonWithIcon';
+import ButtonWithIcon from './ButtonWithIcon';
 
 export interface IProps {
   autoFocus?: boolean
@@ -13,6 +13,9 @@ export interface IProps {
 const DeleteButton: FC<IProps> = (props) => {
   const { onDelete } = props;
   const [open, setOpen] = useState(false);
+
+  const copiedProps = { ...props };
+  delete copiedProps.onDelete;
 
   function handleDelete(){
     setOpen(false);
@@ -24,7 +27,7 @@ const DeleteButton: FC<IProps> = (props) => {
       variant="contained"
       color="secondary"
       icon={<DeleteIcon />}
-      {...props}
+      {...copiedProps}
       onClick={() => setOpen(true)}>
       Delete
     </ButtonWithIcon>
