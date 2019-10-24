@@ -1,8 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { Box, Button, Grid, Typography } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 
 import useErr from '../../../hooks/useErr';
+import ButtonWithIcon from '../../../components/ButtonWithIcon';
 import EntityLink from '../../../components/EntityLink';
 import Loader from '../../../components/Loader';
 import { testSuiteCreatePath, testSuiteUpdatePath } from '../TestSuiteController';
@@ -38,9 +40,9 @@ const TestSuiteList: FC = () => {
         </Grid>
         <Grid item>
           <Link to={testSuiteCreatePath()} className="button">
-            <Button variant="contained" color="primary">
+            <ButtonWithIcon icon={<AddIcon />} variant="contained" color="primary">
               Create Test Suite
-            </Button>
+            </ButtonWithIcon>
           </Link>
         </Grid>
       </Grid>

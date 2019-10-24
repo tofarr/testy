@@ -1,9 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link, Redirect, useParams } from "react-router-dom";
-import { Box, Button, Grid, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import EditIcon from '@material-ui/icons/Edit';
 
 import useErr from '../../../hooks/useErr';
 import useMsg from '../../../hooks/useMsg';
+import ButtonWithIcon from '../../../components/ButtonWithIcon';
 import DeleteButton from '../../../components/DeleteButton';
 import Loader from '../../../components/Loader';
 import NotFound from '../../../components/NotFound';
@@ -49,15 +52,15 @@ const TestStepUpdate: FC = () => {
   function renderLink(){
     if(testCaseId){
       return <Link to={testCaseUpdatePath(testCaseId)} className="button">
-        <Button variant="contained" color="primary">
+        <ButtonWithIcon variant="contained" icon={<ArrowDropUpIcon />}>
           Test Case
-        </Button>
+        </ButtonWithIcon>
       </Link>
     }
     return <Link to={testStepListPath()} className="button">
-      <Button variant="contained" color="primary">
+      <ButtonWithIcon variant="contained" icon={<ArrowDropUpIcon />}>
         Test Steps
-      </Button>
+      </ButtonWithIcon>
     </Link>
   }
 
@@ -100,7 +103,11 @@ const TestStepUpdate: FC = () => {
         {renderLink()}
       </Grid>
     </Grid>
-    <TestStepForm testStep={testStep} onSubmit={handleUpdate} buttonLabel="Update" />
+    <TestStepForm
+      testStep={testStep}
+      onSubmit={handleUpdate}
+      buttonIcon={<EditIcon />}
+      buttonLabel="Update" />
   </Box>
 }
 

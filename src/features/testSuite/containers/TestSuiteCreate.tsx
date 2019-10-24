@@ -1,9 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link, Redirect } from "react-router-dom";
-import { Box, Button, Grid, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 
 import useErr from '../../../hooks/useErr';
 import useMsg from '../../../hooks/useMsg';
+import ButtonWithIcon from '../../../components/ButtonWithIcon';
 import Loader from '../../../components/Loader';
 
 import { testSuiteListPath, testSuiteUpdatePath } from '../TestSuiteController';
@@ -59,13 +62,17 @@ const TestSuiteCreate: FC = () => {
       </Grid>
       <Grid item>
         <Link to={testSuiteListPath()} className="button">
-          <Button variant="contained" color="primary">
+          <ButtonWithIcon icon={<ArrowDropUpIcon />} variant="contained">
             Test Suites
-          </Button>
+          </ButtonWithIcon>
         </Link>
       </Grid>
     </Grid>
-    <TestSuiteForm testSuite={testSuite} onSubmit={handleCreate} buttonLabel="Create" />
+    <TestSuiteForm
+      testSuite={testSuite}
+      onSubmit={handleCreate}
+      buttonIcon={<AddIcon />}
+      buttonLabel="Create" />
   </Box>
 }
 

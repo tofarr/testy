@@ -1,8 +1,15 @@
-import React, { FC, Fragment, useEffect, useState } from 'react';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Typography } from '@material-ui/core';
+import React, { FC, useEffect, useState } from 'react';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@material-ui/core';
+import { SvgIconProps } from '@material-ui/core/SvgIcon/SvgIcon';
+import ErrorIcon from '@material-ui/icons/Error';
+import InfoIcon from '@material-ui/icons/Info';
+import FeedbackIcon from '@material-ui/icons/Feedback';
+import WarningIcon from '@material-ui/icons/Warning';
 
-import useMsg from '../hooks/useMsg';
+import useMsg, { MsgType } from '../hooks/useMsg';
 import { IMsg } from '../hooks/useMsg';
+import ButtonWithIcon from './ButtonWithIcon';
+import DeleteButton from './DeleteButton';
 import Timestamp from './Timestamp';
 
 const EXPAND_TIMEOUT = 3000;
@@ -46,6 +53,30 @@ const Header: FC = () => {
     }
   })
 
+  function renderType(type: number, iconColor: SvgIconProps['color']){
+    switch(type){
+      case MsgType.Info:
+        return <InfoIcon color={iconColor || "primary"} />;
+      case MsgType.Warning:
+        return <WarningIcon color={iconColor || "primary"} />;
+      case MsgType.Error:
+      default:
+        return <ErrorIcon color={iconColor || "secondary"} />;
+    }
+  }
+
+  function renderMsgRow(msg: IMsg, iconColor: SvgIconProps['color']){
+    return <Grid
+      container
+      key={msg.timestamp.getTime()}
+      alignItems="center"
+      spacing={2}>
+      <Grid item>{renderType(msg.type, iconColor)}</Grid>
+      <Grid item><Timestamp t={msg.timestamp} /></Grid>
+      <Grid item xs>{msg.msg}</Grid>
+    </Grid>
+  }
+
   function renderDialog(){
     if(!open){
       return null;
@@ -55,14 +86,12 @@ const Header: FC = () => {
       onClose={() => setOpen(false)}>
       <DialogTitle>Messages</DialogTitle>
       <DialogContent>
-        {msgs.map((msg) => <div key={msg.timestamp.getTime()}>
-          <Timestamp t={msg.timestamp} /> : {msg.type} : {msg.msg}
-        </div>)}
+        {msgs.map((msg) => renderMsgRow(msg, undefined))}
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClear} variant="contained" color="secondary" autoFocus>
+        <DeleteButton onDelete={handleClear} autoFocus>
           Clear Messages
-        </Button>
+        </DeleteButton>
       </DialogActions>
     </Dialog>
   }
@@ -71,17 +100,22 @@ const Header: FC = () => {
     if(!visibleMsg){
       return null;
     }
-    return <Fragment>
-      <Timestamp t={visibleMsg.timestamp} /> : {visibleMsg.type} : {visibleMsg.msg}
-    </Fragment>
+    return renderMsgRow(visibleMsg, "inherit");
   }
 
   return (
-    <Fragment>
-      {renderRecent()}
-      {!!msgs.length && <Button onClick={() => setOpen(true)}>Messages</Button>}
+    <Grid container alignItems="center">
+      <Grid item>{renderRecent()}</Grid>
+      {!!msgs.length && <Grid item>
+        <ButtonWithIcon
+          onClick={() => setOpen(true)}
+          color="inherit"
+          icon={<FeedbackIcon />}>
+          Messages
+        </ButtonWithIcon>
+      </Grid>}
       {renderDialog()}
-    </Fragment>
+    </Grid>
   );
 }
 

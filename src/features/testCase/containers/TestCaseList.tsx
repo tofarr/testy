@@ -1,9 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { Box, Button, Grid, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 
 import useErr from '../../../hooks/useErr';
+import ButtonWithIcon from '../../../components/ButtonWithIcon';
 import EntityLink from '../../../components/EntityLink';
 import Loader from '../../../components/Loader';
 
@@ -56,9 +58,9 @@ const TestCaseList: FC = () => {
         </Grid>
         <Grid item>
           <Link to={testCaseCreatePath(parseInt(params.id))} className="button">
-            <Button variant="contained" color="primary">
+            <ButtonWithIcon variant="contained" color="primary" icon={<AddIcon />}>
               Create Test Case
-            </Button>
+            </ButtonWithIcon>
           </Link>
         </Grid>
       </Grid>

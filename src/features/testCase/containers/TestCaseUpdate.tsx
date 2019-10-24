@@ -1,9 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link, Redirect, useParams } from "react-router-dom";
 import { Box, Button, Grid, Paper, Typography } from '@material-ui/core';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import EditIcon from '@material-ui/icons/Edit';
 
 import useErr from '../../../hooks/useErr';
 import useMsg from '../../../hooks/useMsg';
+import ButtonWithIcon from '../../../components/ButtonWithIcon';
 import DeleteButton from '../../../components/DeleteButton';
 import Loader from '../../../components/Loader';
 import NotFound from '../../../components/NotFound';
@@ -58,7 +61,7 @@ const TestCaseUpdate: FC = () => {
   }, [err, id]);
 
   if(done){
-    return <Redirect to={`/test-suite-update/${testSuiteId}`} />
+    return <Redirect to={testSuiteUpdatePath(testSuiteId as number)} />
   }
 
   if(working){
@@ -79,13 +82,19 @@ const TestCaseUpdate: FC = () => {
       </Grid>
       {!!testSuiteId && <Grid item>
         <Link to={testSuiteUpdatePath(testSuiteId)} className="button">
-          <Button variant="contained" color="primary">
+          <ButtonWithIcon
+            variant="contained"
+            icon={<ArrowDropUpIcon />}>
             Test Suite
-          </Button>
+          </ButtonWithIcon>
         </Link>
       </Grid>}
     </Grid>
-    <TestCaseForm testCase={testCase} onSubmit={handleUpdate} buttonLabel="Update" />
+    <TestCaseForm
+      testCase={testCase}
+      onSubmit={handleUpdate}
+      buttonIcon={<EditIcon />}
+      buttonLabel="Update" />
     <Paper>
       <Box p={2}>
         <TestStepList />

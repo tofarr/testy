@@ -1,10 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link, Redirect } from "react-router-dom";
-import { Box, Button, Grid, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 
 import useErr from '../../../hooks/useErr';
 import useMsg from '../../../hooks/useMsg';
 import useQuery from '../../../hooks/useQuery';
+import ButtonWithIcon from '../../../components/ButtonWithIcon';
 import Loader from '../../../components/Loader';
 
 import { testSuiteUpdatePath } from '../../testSuite/TestSuiteController';
@@ -42,15 +45,15 @@ const TestCaseCreate: FC = () => {
   function renderLink(){
     if(testSuiteId){
       return <Link to={testSuiteUpdatePath(parseInt(testSuiteId))} className="button">
-        <Button variant="contained" color="primary">
+        <ButtonWithIcon variant="contained" icon={<ArrowDropUpIcon />}>
           Test Suite
-        </Button>
+        </ButtonWithIcon>
       </Link>
     }
     return <Link to={testCaseListPath()} className="button">
-      <Button variant="contained" color="primary">
+      <ButtonWithIcon variant="contained" icon={<ArrowDropUpIcon />}>
         Test Cases
-      </Button>
+      </ButtonWithIcon>
     </Link>
   }
 
@@ -89,7 +92,11 @@ const TestCaseCreate: FC = () => {
         {renderLink()}
       </Grid>
     </Grid>
-    <TestCaseForm testCase={testCase} onSubmit={handleCreate} buttonLabel="Create" />
+    <TestCaseForm
+      testCase={testCase}
+      onSubmit={handleCreate}
+      buttonLabel="Create"
+      buttonIcon={<AddIcon />} />
   </Box>
 }
 

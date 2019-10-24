@@ -1,11 +1,10 @@
-import React, { FC, MouseEvent, useState } from 'react';
+import React, { FC, MouseEvent, useEffect, useState } from 'react';
 import { Redirect } from "react-router-dom";
 import { Link } from '@material-ui/core';
-import { ThemeStyle } from '@material-ui/core/styles/createTypography';
+import { LinkProps } from '@material-ui/core/Link/Link';
 
-export interface IProps {
+export interface IProps extends LinkProps{
   href: string;
-  variant?: ThemeStyle;
 }
 
 //Fixes issue where MUI Links always do a full refresh
@@ -13,6 +12,12 @@ export interface IProps {
 const InternalLink: FC<IProps> = (props) => {
   const { href } = props;
   const [clicked, setClicked] = useState(false);
+
+  useEffect(() => {
+    if(clicked){
+      setClicked(false);
+    }
+  }, [clicked]);
 
   if(clicked){
     return <Redirect to={href} />

@@ -1,6 +1,9 @@
 import React from 'react';
 import { AppBar, Button, Grid, Link, Toolbar } from '@material-ui/core';
+import HomeIcon from '@material-ui/icons/Home';
 
+import ButtonWithIcon from './ButtonWithIcon';
+import InternalLink from './InternalLink';
 import Msg from './Msgs';
 
 
@@ -12,9 +15,9 @@ const Header: React.FC = () => {
         <Toolbar>
           <Grid container justify="space-between">
             <Grid item>
-              <Link href="/">
-                <Button>Home</Button>
-              </Link>
+              <InternalLink href="/" color="inherit">
+                <ButtonWithIcon icon={<HomeIcon />} color="inherit">Home</ButtonWithIcon>
+              </InternalLink>
             </Grid>
             <Grid item>
               <Msg />

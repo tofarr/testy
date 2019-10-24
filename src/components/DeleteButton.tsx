@@ -1,12 +1,17 @@
 import React, { FC, Fragment, useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
+import { Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
+import CancelIcon from '@material-ui/icons/Cancel';
+import DeleteIcon from '@material-ui/icons/Delete';
+
+import ButtonWithIcon, { IButtonWithIconProps } from './ButtonWithIcon';
 
 export interface IProps {
+  autoFocus?: boolean
   onDelete: () => void;
 }
 
-const EntityLink: FC<IProps> = ({ onDelete }) => {
-
+const DeleteButton: FC<IProps> = (props) => {
+  const { onDelete } = props;
   const [open, setOpen] = useState(false);
 
   function handleDelete(){
@@ -15,22 +20,37 @@ const EntityLink: FC<IProps> = ({ onDelete }) => {
   }
 
   return <Fragment>
-    <Button variant="contained" color="secondary" onClick={() => setOpen(true)}>Delete</Button>
+    <ButtonWithIcon
+      variant="contained"
+      color="secondary"
+      icon={<DeleteIcon />}
+      {...props}
+      onClick={() => setOpen(true)}>
+      Delete
+    </ButtonWithIcon>
     <Dialog
       open={open}
       onClose={() => setOpen(false)}>
       <DialogTitle>Are you sure?</DialogTitle>
       <DialogContent>Deleted items cannot be retrieved!</DialogContent>
       <DialogActions>
-        <Button onClick={() => setOpen(false)} variant="contained">
+        <ButtonWithIcon
+          onClick={() => setOpen(false)}
+          variant="contained"
+          icon={<CancelIcon />}>
           Cancel
-        </Button>
-        <Button onClick={handleDelete} variant="contained" color="secondary" autoFocus>
+        </ButtonWithIcon>
+        <ButtonWithIcon
+          onClick={handleDelete}
+          variant="contained"
+          color="secondary"
+          icon={<DeleteIcon />}
+          autoFocus>
           Confirm
-        </Button>
+        </ButtonWithIcon>
       </DialogActions>
     </Dialog>
   </Fragment>
 }
 
-export default EntityLink;
+export default DeleteButton;

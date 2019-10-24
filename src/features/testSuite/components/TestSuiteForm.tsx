@@ -1,15 +1,18 @@
 import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
-import { Box, Button, Grid, TextField } from '@material-ui/core';
+import { Box, Grid, TextField } from '@material-ui/core';
+import CancelIcon from '@material-ui/icons/Cancel';
 
+import ButtonWithIcon from '../../../components/ButtonWithIcon';
 import { ITestSuite } from '../TestSuiteService';
 
 export interface IProps {
   testSuite: ITestSuite;
+  buttonIcon: JSX.Element;
   buttonLabel: string;
   onSubmit: (testSuite: ITestSuite) => void;
 }
 
-const TestSuite: FC<IProps> = ({ testSuite, buttonLabel, onSubmit }) => {
+const TestSuite: FC<IProps> = ({ testSuite, buttonIcon, buttonLabel, onSubmit }) => {
 
   const [_testSuite, setTestSuite] = useState(testSuite);
 
@@ -52,10 +55,18 @@ const TestSuite: FC<IProps> = ({ testSuite, buttonLabel, onSubmit }) => {
           </Grid>
           <Grid container item justify="flex-end" spacing={2}>
             <Grid item>
-              <Button type="reset" variant="contained">Reset</Button>
+              <ButtonWithIcon icon={<CancelIcon />} type="reset" variant="contained">
+                Reset
+              </ButtonWithIcon>
             </Grid>
             <Grid item>
-              <Button type="submit" variant="contained" color="primary">{buttonLabel}</Button>
+              <ButtonWithIcon
+               type="submit"
+               icon={buttonIcon}
+               variant="contained"
+               color="primary">
+               {buttonLabel}
+             </ButtonWithIcon>
             </Grid>
           </Grid>
         </Grid>

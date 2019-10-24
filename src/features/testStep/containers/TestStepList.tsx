@@ -1,9 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { Box, Button, Grid, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 
 import useErr from '../../../hooks/useErr';
+import ButtonWithIcon from '../../../components/ButtonWithIcon';
 import EntityLink from '../../../components/EntityLink';
 import Loader from '../../../components/Loader';
 
@@ -54,13 +56,16 @@ const TestStepList: FC = () => {
         <Grid xs item>
           <Typography variant="h4">Test Steps</Typography>
         </Grid>
-        <Grid item>
+        {!!params.id && <Grid item>
           <Link to={testStepCreatePath(parseInt(params.id))} className="button">
-            <Button variant="contained" color="primary">
+            <ButtonWithIcon
+              variant="contained"
+              color="primary"
+              icon={<AddIcon />}>
               Create Test Step
-            </Button>
+            </ButtonWithIcon>
           </Link>
-        </Grid>
+        </Grid>}
       </Grid>
       <Box p={1}>
         {testSteps.map(testStep => (
